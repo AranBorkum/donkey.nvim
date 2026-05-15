@@ -9,6 +9,16 @@ local Asana = {}
 local function make_get_request(url)
     return curl.get(url, { headers = constants.REQUEST_HEADER })
 end
+
+---Make an authenticated POST request to an asana API
+---@param url string API url for a given endpoint
+---@param data table API request payload
+---@return table The curl response object
+local function make_post_request(url, body)
+    return curl.post(url, {
+        body = vim.json.encode(body),
+        headers = constants.REQUEST_HEADER,
+    })
 end
 
 ---Get an Asana task by ID
@@ -52,6 +62,18 @@ function Asana.get_project_ids_for_task(task_id)
     end
 
     return projects
+end
+
+---Move a task to a section by their IDs
+---@param section_id string The Asana section ID
+---@param task_id string The Asana task ID
+function Asana.move_task_to_section(section_id, task_id)
+    local body = { data = { task = task_id } }
+    local response = make_post_request(constants.SECTION_API_PATH .. section_id .. "/addTask", body)
+
+    if response.status ~= 200 then
+        vim.notify("Could not move ticket to new section", vim.log.levels.ERROR)
+    end
 end
 
 return Asana
