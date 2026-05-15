@@ -1,3 +1,4 @@
+local asana = require("donkey.asana")
 local ui = require("donkey.ui")
 local utils = require("donkey.utils")
 
@@ -30,6 +31,8 @@ function Api.update_ticket_section(task_id)
                 vim.notify("No section selected", vim.log.levels.WARN)
                 return
             end
+
+            asana.move_task_to_section(section.gid, task_id)
 
             vim.notify(
                 "Moving task "
