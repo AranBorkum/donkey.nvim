@@ -6,15 +6,16 @@ local Asana = {}
 ---Make an authenticated GET request to an asana API
 ---@param url string API url for a given endpoint
 ---@return table The curl response object
-local function make_request(url)
-    return curl.get(url, { headers = constants.AUTH_HEADER })
+local function make_get_request(url)
+    return curl.get(url, { headers = constants.REQUEST_HEADER })
+end
 end
 
 ---Get an Asana task by ID
 ---@param task_id string|nil The Asana task ID
 ---@return table The curl response object
 function Asana.get_task(task_id)
-    local response = make_request(constants.TASK_API_PATH .. task_id)
+    local response = make_get_request(constants.TASK_API_PATH .. task_id)
 
     if response.status ~= 200 then vim.notify("Could not get task from Asana") end
 
@@ -28,7 +29,7 @@ end
 ---@return table The curl response object
 function Asana.get_project_sections(project_id)
     local response =
-        make_request(constants.PROJECT_API_PATH .. project_id .. "/sections")
+        make_get_request(constants.PROJECT_API_PATH .. project_id .. "/sections")
 
     if response.status ~= 200 then
         vim.notify("Could not get project from Asana", vim.log.levels.ERROR)
