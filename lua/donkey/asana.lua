@@ -69,7 +69,8 @@ end
 ---@param task_id string The Asana task ID
 function Asana.move_task_to_section(section_id, task_id)
     local body = { data = { task = task_id } }
-    local response = make_post_request(constants.SECTION_API_PATH .. section_id .. "/addTask", body)
+    local response =
+        make_post_request(constants.SECTION_API_PATH .. section_id .. "/addTask", body)
 
     if response.status ~= 200 then
         vim.notify("Could not move ticket to new section", vim.log.levels.ERROR)
