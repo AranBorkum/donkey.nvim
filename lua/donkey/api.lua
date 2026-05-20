@@ -1,4 +1,5 @@
 local asana = require("donkey.asana")
+local constants = require("donkey.constants")
 local ui = require("donkey.ui")
 local utils = require("donkey.utils")
 
@@ -71,6 +72,35 @@ function Api.update_ticket_section(task_id)
             )
         end, current_section_gid)
     end)
+end
+
+---Open Asana ticket in default browser
+---@param task_id string|nil The task ID if known or will retrieve from branch
+function Api.open_ticket_in_browser(task_id)
+    if task_id == "" then
+        task_id = utils.get_task_id_from_branch()
+        if not task_id then
+            vim.notify(
+                "No task ID provided and could not extract from branch name",
+                vim.log.levels.ERROR
+            )
+            return
+        end
+    end
+
+    local url = constants.APP_PATH .. task_id
+    local sysname = vim.loop.os_uname().sysname
+
+    if sysname == "Darwin" then
+        -- macOS
+        vim.fn.jobstart({ "open", url }, { detach = true })
+    elseif sysname == "Windows_NT" then
+        -- Windows
+        vim.fn.jobstart({ "cmd.exe", "/c", "start", url }, { detach = true })
+    else
+        -- Linux and others
+        vim.fn.jobstart({ "xdg-open", url }, { detach = true })
+    end
 end
 
 return Api

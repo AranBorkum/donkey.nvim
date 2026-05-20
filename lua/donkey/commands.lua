@@ -46,6 +46,15 @@ function Commands.setup()
             desc = "Update an Asana task by selecting project and section",
         }
     )
+
+    vim.api.nvim_create_user_command(
+        "AsanaOpenTicket",
+        function(opts) api.open_ticket_in_browser(opts.args) end,
+        {
+            nargs = "?",
+            desc = "Open asana ticket in the default browser",
+        }
+    )
 end
 
 return Commands
