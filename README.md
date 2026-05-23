@@ -26,7 +26,7 @@ A Neovim plugin for integrating Asana project management into your workflow.
 
 ```lua
 {
-  "yourusername/donkey.nvim",
+  "AranBorkum/donkey.nvim",
   dependencies = { "nvim-lua/plenary.nvim" },
   config = function()
     require("donkey").setup()
@@ -38,7 +38,7 @@ A Neovim plugin for integrating Asana project management into your workflow.
 
 ```lua
 use {
-  "yourusername/donkey.nvim",
+  "AranBorkum/donkey.nvim",
   requires = { "nvim-lua/plenary.nvim" },
   config = function()
     require("donkey").setup()
